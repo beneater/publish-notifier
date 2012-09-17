@@ -12,14 +12,15 @@ import secrets
 hipchat.config.token = secrets.hipchat_token
 
 
-def hipchat_notify(room_id, message):
+def hipchat_notify(room_ids, message):
     # Pure kwargs don't work here because 'from' is a Python keyword...
-    hipchat.room.Room.message(**{
-        'room_id': room_id,
-        'from': 'Publish Primate',
-        'message': message,
-        'color': 'purple',
-    })
+    for room_id in room_ids:
+	hipchat.room.Room.message(**{
+	    'room_id': room_id,
+	    'from': 'Publish Primate',
+	    'message': message,
+	    'color': 'purple',
+	})
 
 
 def get_version(url='http://www.khanacademy.org/api/v1/topicversion/default/id'):
@@ -79,7 +80,7 @@ if __name__ == '__main__':
         if version is not None:
             if last_version is not None and version != last_version:
                 hipchat_notify(
-                    secrets.hipchat_room_id,
+                    secrets.hipchat_room_ids,
                     build_message(last_version, version))
             last_version = version
 
