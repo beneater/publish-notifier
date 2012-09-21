@@ -63,6 +63,11 @@ def get_topicversion(version_num,
 
 def build_message(last_version, version):
     topicversion = get_topicversion(version)
+    if topicversion == None:
+        return ('Topic tree publish completed. Version %s -> %s<br>'
+                '&bull; Couldn\'t get the deets... /api/v1/topicversions returned a 500 :('
+                % (last_version, version))
+    
     return ('Topic tree publish completed. Version %s -> %s<br>'
             '&bull; Title: %s<br>'
             '&bull; Description: %s<br>'
